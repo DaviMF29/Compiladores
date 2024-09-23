@@ -9,50 +9,45 @@ import com.uepb.parser.exceptions.SyntaxError;
 import com.uepb.token.Token;
 import com.uepb.token.TokenType;
 
-public class TokenBuffer implements Closeable{
-
+public class TokenBuffer implements Closeable {
     private final int SIZE;
     private boolean reachedEndOfFile;
     private final LinkedList<Token> buffer;
     private final Lexer lexer;
-
-    public TokenBuffer(Lexer lexer) throws IOException{
-        SIZE = 10;
+    public TokenBuffer(Lexer lexer) throws IOException {
+        SIZE = 10; // Tamanho do buffer
         buffer = new LinkedList<>();
         this.lexer = lexer;
         reachedEndOfFile = false;
         confirmToken();
     }
 
-    private void confirmToken() throws IOException {        
-        if(!buffer.isEmpty()) 
-            buffer.poll();
-        
-        while(buffer.size() < SIZE && !reachedEndOfFile){
-            var tk = lexer.readNextToken();
-            buffer.addLast(tk);
-
-            if(tk.type() == TokenType.EOF)
+    private void confirmToken() throws IOException {
+        while (buffer.size() < SIZE && !reachedEndOfFile) {
+            Token token = lexer.readNextToken();
+            if (token.type() == TokenType.EOF) {
                 reachedEndOfFile = true;
+            }
+            buffer.add(token);
         }
     }
 
-    public Token lookAhead(int k){
-        if(buffer.isEmpty()) 
+    public Token lookAhead(int k) {
+        if (buffer.isEmpty()) 
             return null;
 
-        k = k-1 < 0 ? 0 : k-1;
+        k = k - 1 < 0 ? 0 : k - 1;
         return k >= buffer.size() ? buffer.getLast() : buffer.get(k);
     }
 
-    public void match(TokenType type) throws IOException{
-        var la = lookAhead(1);
-
-        if(la.type() == type){
-            return;
+    public void match(TokenType expected) throws SyntaxError, IOException {
+        Token current = lookAhead(1);
+        if (current == null || current.type() != expected) {
+            throw new SyntaxError("Esperado: " + expected + ", mas encontrado: " + (current != null ? current.type() : "EOF"));
         }
 
-        throw new SyntaxError(la, type);
+        buffer.remove(0); 
+        confirmToken();
     }
 
     @Override
@@ -60,4 +55,5 @@ public class TokenBuffer implements Closeable{
         if(lexer != null) lexer.close();
     }
     
+
 }

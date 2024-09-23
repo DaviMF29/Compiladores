@@ -7,6 +7,8 @@ import com.uepb.token.TokenType;
 
 public class SyntaxError extends RuntimeException{
     
+    private String message;
+
     public SyntaxError(Token recebido, TokenType ...esperado){
         super("Erro Sintático: Foi recebido " + recebido.toString() 
             + " mas era esperado [" + String.join(", ", 
@@ -14,8 +16,15 @@ public class SyntaxError extends RuntimeException{
             ) + "]");
     }
 
-    public SyntaxError(String string) {
-        //TODO Auto-generated constructor stub
+    public SyntaxError(String message) {
+        super(message);
+        this.message = message;
     }
 
+    @Override
+    public String toString() {
+        return "SyntaxError: " + message;
+    }
+
+    
 }

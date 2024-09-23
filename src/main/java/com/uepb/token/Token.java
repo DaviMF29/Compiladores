@@ -8,4 +8,6 @@ public record Token(
     public String toString(){
         return "<" + type + ", " + lexema + ">";
     }
+
+    
 }

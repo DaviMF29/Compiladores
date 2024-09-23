@@ -11,7 +11,9 @@ public enum TokenPattern {
     DIVIDE_PATTERN(Pattern.compile("/")),  // operador /
     LPAREN_PATTERN(Pattern.compile("\\(")), // abre parênteses
     RPAREN_PATTERN(Pattern.compile("\\)")), // fecha parênteses
-    COMMENT_PATTERN(Pattern.compile("#.*"));
+    COMMENT_PATTERN(Pattern.compile("#.*")),
+    SEMICOLON_PATTERN(Pattern.compile(";")),
+    POWER_PATTERN(Pattern.compile("\\^"));
 
 
     private final Pattern pattern;

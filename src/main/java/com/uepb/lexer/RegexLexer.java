@@ -1,7 +1,6 @@
 package com.uepb.lexer;
 
 import java.io.IOException;
-
 import com.uepb.token.Token;
 import com.uepb.token.TokenType;
 
@@ -23,15 +22,17 @@ public class RegexLexer implements Lexer {
                 continue;
             }
 
-            if ((tokenValue = buffer.prefixMatches(TokenPattern.WHITESPACE_PATTERN)) != null)
+            if ((tokenValue = buffer.prefixMatches(TokenPattern.WHITESPACE_PATTERN)) != null) {
                 continue;
+            }
 
             TokenType type = null;
 
             if ((tokenValue = buffer.prefixMatches(TokenPattern.NUMBER_PATTERN)) != null) {
                 type = TokenType.NUMBER;
-            }
-            else if ((tokenValue = buffer.prefixMatches(TokenPattern.COMMENT_PATTERN)) != null) {
+            } else if ((tokenValue = buffer.prefixMatches(TokenPattern.SEMICOLON_PATTERN)) != null) {
+                type = TokenType.SEMICOLON;
+            } else if ((tokenValue = buffer.prefixMatches(TokenPattern.COMMENT_PATTERN)) != null) {
                 continue;
             } else if ((tokenValue = buffer.prefixMatches(TokenPattern.PLUS_PATTERN)) != null) {
                 type = TokenType.PLUS;
@@ -45,13 +46,13 @@ public class RegexLexer implements Lexer {
                 type = TokenType.LPAREN;
             } else if ((tokenValue = buffer.prefixMatches(TokenPattern.RPAREN_PATTERN)) != null) {
                 type = TokenType.RPAREN;
+            } else if ((tokenValue = buffer.prefixMatches(TokenPattern.POWER_PATTERN)) != null) {
+                type = TokenType.POWER;
+            } else {
+                throw new IOException("Unexpected character: " + buffer.currentChar());
             }
 
-            if (type != null) {
-                return new Token(type, tokenValue);
-            }
-
-            throw new IOException("Unexpected character: " + buffer.currentChar());
+            return new Token(type, tokenValue);
         }
 
         return new Token(TokenType.EOF, null);
