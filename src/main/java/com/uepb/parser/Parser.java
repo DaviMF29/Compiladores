@@ -3,6 +3,7 @@ package com.uepb.parser;
 import java.io.IOException;
 
 import com.uepb.lexer.Lexer;
+import com.uepb.parser.ast.SymbolTable;
 import com.uepb.parser.exceptions.SyntaxError;
 import com.uepb.token.Token;
 import com.uepb.token.TokenType;
@@ -10,8 +11,11 @@ import com.uepb.token.TokenType;
 public class Parser {
 
     private final TokenBuffer tokens;
+    private final SymbolTable symbolTable;
+    
     public Parser(Lexer lexer) throws IOException {
         this.tokens = new TokenBuffer(lexer);
+        this.symbolTable = new SymbolTable();
     }
 
     public void parse() throws IOException, SyntaxError {

@@ -1,15 +1,17 @@
 package com.uepb.token;
 
 public enum TokenType {
-    EOF,
-    NUMBER,    // números
-    PLUS,      // operador +
-    MINUS,     // operador -
-    MULTIPLY,  // operador *
-    DIVIDE,    // operador /
-    LPAREN,    // (
-    RPAREN,    // )        // fim de arquivo
+    EOF,        // fim de arquivo
+    VAR,        // variável
+    NUMBER,     // números
+    PLUS,       // operador +
+    MINUS,      // operador -
+    MULTIPLY,   // operador *
+    DIVIDE,     // operador /
+    LPAREN,     // (
+    RPAREN,     // )        
     SEMICOLON,  // ;
-    POWER,     // ^
+    POWER;      // ^
+
 }
 

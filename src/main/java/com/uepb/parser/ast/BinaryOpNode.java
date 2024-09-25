@@ -3,7 +3,7 @@ package com.uepb.parser.ast;
 import com.uepb.token.Token;
 
 public class BinaryOpNode extends ExprNode {
-    private final ExprNode left;
+    private final ExprNode left; 
     private final Token operator;
     private final ExprNode right;
 
@@ -25,17 +25,20 @@ public class BinaryOpNode extends ExprNode {
                 return leftValue - rightValue;
             case MULTIPLY:
                 return leftValue * rightValue;
-            case DIVIDE:
-                return leftValue / rightValue;
             case POWER:
                 return Math.pow(leftValue, rightValue);
+            case DIVIDE:
+                if (rightValue == 0) {
+                    throw new RuntimeException("Divisão por zero.");
+                }
+                return leftValue / rightValue;
             default:
-                throw new UnsupportedOperationException("Operador não suportado: " + operator);
+                throw new RuntimeException("Operador desconhecido: " + operator);
         }
     }
 
     @Override
     public String toString() {
-        return "(" + left.toString() + " " + operator.lexema() + " " + right.toString() + ")";
+        return "<" + left + ", " + operator.lexema() + " , " + right + ">";
     }
 }

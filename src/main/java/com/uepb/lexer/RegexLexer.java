@@ -48,6 +48,8 @@ public class RegexLexer implements Lexer {
                 type = TokenType.RPAREN;
             } else if ((tokenValue = buffer.prefixMatches(TokenPattern.POWER_PATTERN)) != null) {
                 type = TokenType.POWER;
+            } else if ((tokenValue = buffer.prefixMatches(TokenPattern.VAR_PATTERN)) != null) {
+                type = TokenType.VAR;
             } else {
                 throw new IOException("Unexpected character: " + buffer.currentChar());
             }

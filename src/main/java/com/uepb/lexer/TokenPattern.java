@@ -11,10 +11,10 @@ public enum TokenPattern {
     DIVIDE_PATTERN(Pattern.compile("/")),  // operador /
     LPAREN_PATTERN(Pattern.compile("\\(")), // abre parênteses
     RPAREN_PATTERN(Pattern.compile("\\)")), // fecha parênteses
-    COMMENT_PATTERN(Pattern.compile("#.*")),
-    SEMICOLON_PATTERN(Pattern.compile(";")),
-    POWER_PATTERN(Pattern.compile("\\^"));
-
+    COMMENT_PATTERN(Pattern.compile("#.*")), // comentários
+    SEMICOLON_PATTERN(Pattern.compile(";")), // ponto e vírgula
+    POWER_PATTERN(Pattern.compile("\\^")), // operador ^
+    VAR_PATTERN(Pattern.compile("[a-zA-Z_][a-zA-Z0-9_]*")); // padrão para variáveis
 
     private final Pattern pattern;
 

@@ -15,7 +15,7 @@ public class TokenBuffer implements Closeable {
     private final LinkedList<Token> buffer;
     private final Lexer lexer;
     public TokenBuffer(Lexer lexer) throws IOException {
-        SIZE = 10; // Tamanho do buffer
+        SIZE = 10;
         buffer = new LinkedList<>();
         this.lexer = lexer;
         reachedEndOfFile = false;

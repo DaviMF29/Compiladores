@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.uepb.parser.ast.BinaryOpNode;
 import com.uepb.parser.ast.ExprNode;
 import com.uepb.parser.ast.NumberNode;
+import com.uepb.parser.ast.VariableNode;
 import com.uepb.parser.exceptions.SyntaxError;
 import com.uepb.token.Token;
 import com.uepb.token.TokenType;
@@ -36,7 +37,9 @@ public class ExpressionParser {
             } else {
                 throw new SyntaxError("Esperado ';' após a expressão");
             }
-    
+            
+            //poderia adicionar uma verificação para imprimir <var, operator, number>
+
             System.out.println("Expressão avaliada: " + lastResult + ", Valor: " + currentValue);
         }
     
@@ -86,6 +89,10 @@ public class ExpressionParser {
         } else if (lookahead.type() == TokenType.NUMBER) {
             tokenBuffer.match(TokenType.NUMBER);
             return new NumberNode(Double.parseDouble(lookahead.lexema()));
+        } else if (lookahead.type() == TokenType.VAR) {
+            tokenBuffer.match(TokenType.VAR);
+            String variableName = lookahead.lexema();
+            return new VariableNode(variableName);
         } else if (lookahead.type() == TokenType.LPAREN) {
             tokenBuffer.match(TokenType.LPAREN);
             ExprNode result = expression();
