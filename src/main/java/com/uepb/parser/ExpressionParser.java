@@ -48,18 +48,18 @@ public class ExpressionParser {
     
     
     private ExprNode expression() throws IOException, SyntaxError {
-        ExprNode left = exponent();
+        ExprNode left = term();
         while (isAddOp(tokenBuffer.lookAhead(1))) {
             Token operator = tokenBuffer.lookAhead(1);
             tokenBuffer.match(operator.type());
-            ExprNode right = exponent(); 
+            ExprNode right = term();
             left = new BinaryOpNode(left, operator, right);
         }
         return left;
     }
 
     private ExprNode exponent() throws IOException, SyntaxError {
-        ExprNode left = term();
+        ExprNode left = factor();
         while (tokenBuffer.lookAhead(1).type() == TokenType.POWER) {
             Token operator = tokenBuffer.lookAhead(1);
             tokenBuffer.match(operator.type());
@@ -70,11 +70,11 @@ public class ExpressionParser {
     }
 
     private ExprNode term() throws IOException, SyntaxError {
-        ExprNode left = factor();
+        ExprNode left = exponent();
         while (isMulOp(tokenBuffer.lookAhead(1))) {
             Token operator = tokenBuffer.lookAhead(1);
             tokenBuffer.match(operator.type());
-            ExprNode right = factor();
+            ExprNode right = exponent();
             left = new BinaryOpNode(left, operator, right);
         }
         return left;
